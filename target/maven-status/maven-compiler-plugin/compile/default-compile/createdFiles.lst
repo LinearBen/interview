@@ -1,0 +1,12 @@
+com\example\dao\AnnouncementDao.class
+com\example\dao\AnnouncementDaoImpl.class
+com\example\controller\UserController.class
+com\example\dao\UserDaoImpl.class
+com\example\dao\UserDao.class
+com\example\model\Announcement.class
+com\example\service\UserServiceImpl.class
+com\example\service\UserService.class
+com\example\service\AnnouncementService.class
+com\example\model\User.class
+com\example\service\AnnouncementServiceImpl.class
+com\example\controller\AnnouncementController.class
