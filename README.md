@@ -1,6 +1,14 @@
 # Spring MVC Hibernate Demo
 
-這是一個使用 JSP、Servlet、Spring MVC 與 Hibernate 的簡易範例。專案採用內建 H2 記憶體資料庫，並可打包成 WAR 檔部署在 Tomcat 上。
+這是一個使用 JSP、Servlet、Spring MVC、JPA (Hibernate) 和 MySQL 的簡易公告欄範例。
+
+## 技術棧
+
+- **後端**: Spring MVC, Spring ORM, JPA (Hibernate)
+- **前端**: JSP, JSTL, Bootstrap 5
+- **資料庫**: MySQL
+- **建置工具**: Maven
+- **伺服器**: Tomcat 10.1+
 
 ## 建置專案
 
@@ -12,4 +20,6 @@ mvn clean package
 
 ## 使用說明
 
-啟動 Tomcat 後，瀏覽 `http://localhost:8080/spring-mvc-hibernate-demo/`，即可新增使用者並查看清單。
+1.  請確認您的 MySQL 服務已啟動，並已建立名為 `bulletin` 的資料庫。
+2.  修改 `src/main/resources/app.properties` 中的資料庫連線資訊。
+3.  啟動 Tomcat 後，瀏覽 `http://localhost:8080/spring-mvc-hibernate-demo/`，即可查看、新增、修改、刪除公告，並支援檔案上傳。

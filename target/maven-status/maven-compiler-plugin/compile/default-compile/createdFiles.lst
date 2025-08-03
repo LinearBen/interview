@@ -4,6 +4,8 @@ com\example\controller\UserController.class
 com\example\dao\UserDaoImpl.class
 com\example\dao\UserDao.class
 com\example\model\Announcement.class
+com\example\service\FileSystemStorageService.class
+com\example\service\StorageService.class
 com\example\service\UserServiceImpl.class
 com\example\service\UserService.class
 com\example\service\AnnouncementService.class

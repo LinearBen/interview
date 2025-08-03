@@ -1,67 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Maven 專案的根元素 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- 指定 POM 模型版本 -->
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- 專案的唯一標識符 -->
     <groupId>com.example</groupId>
     <artifactId>spring-mvc-hibernate-demo</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <!-- 專案打包類型為 WAR (Web Archive)，用於部署到 Servlet 容器 -->
     <packaging>war</packaging>
 
+    <!-- 定義專案中使用的屬性，方便統一管理版本號 -->
     <properties>
         <java.version>17</java.version>
         <spring.version>6.0.13</spring.version>
         <hibernate.version>6.2.6.Final</hibernate.version>
     </properties>
 
+    <!-- 專案的依賴列表 -->
     <dependencies>
+        <!-- Spring Web MVC 框架，用於構建 Web 應用程式 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <!-- Spring ORM 模組，用於整合 ORM 框架 (如 Hibernate) -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <!-- Hibernate ORM 框架的核心依賴，用於數據持久化 -->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
+        <!-- Hibernate Validator，用於實現基於註解的數據驗證 -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.0.Final</version>
+        </dependency>
+        <!-- Jakarta Bean Validation API，提供標準的驗證接口 -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <!-- HikariCP 連接池，提供高性能的數據庫連接管理 -->
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>5.0.1</version>
         </dependency>
+        <!-- MySQL JDBC 驅動，用於連接 MySQL 數據庫 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.19</version>
         </dependency>
+        <!-- Jakarta Servlet API，Web 應用程式的標準 API，編譯時需要，部署時由伺服器提供 -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <version>6.0.0</version>
             <scope>provided</scope>
         </dependency>
+        <!-- Jakarta Server Pages API，JSP 頁面的標準 API，編譯時需要，部署時由伺服器提供 -->
         <dependency>
             <groupId>jakarta.servlet.jsp</groupId>
             <artifactId>jakarta.servlet.jsp-api</artifactId>
             <version>3.1.1</version>
             <scope>provided</scope>
         </dependency>
+        <!-- Jakarta Standard Tag Library (JSTL) API，JSP 頁面中使用的標準標籤庫 API -->
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-            <version>2.0.0</version>
+            <version>3.0.0</version>
         </dependency>
+        <!-- Jakarta Standard Tag Library (JSTL) 實現，提供 JSTL 標籤的具體實現 -->
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-            <version>2.0.0</version>
+            <version>3.0.1</version>
         </dependency>
+        <!-- Jakarta Annotations API，提供標準的註解，如 @PostConstruct -->
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
@@ -69,8 +98,10 @@
         </dependency>
     </dependencies>
 
+    <!-- 專案的構建配置 -->
     <build>
         <plugins>
+            <!-- Maven 編譯插件，用於指定 Java 編譯版本 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -80,6 +111,7 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
+            <!-- Maven WAR 插件，用於將專案打包成 WAR 文件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>

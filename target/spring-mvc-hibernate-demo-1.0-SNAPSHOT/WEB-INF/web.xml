@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Web 應用程式部署描述符 -->
 <web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
@@ -21,20 +22,24 @@
         </init-param>
     </filter>
 
+    <!-- 配置 Spring 應用程式上下文的配置檔案位置 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/applicationContext.xml</param-value>
     </context-param>
 
+    <!-- 監聽器，用於在 Web 應用程式啟動時載入 Spring 應用程式上下文 -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <!-- 將字符編碼過濾器應用於所有請求 -->
     <filter-mapping>
         <filter-name>characterEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!-- 配置 Spring MVC 的核心 Servlet - DispatcherServlet -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -42,20 +47,23 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
         </init-param>
+        <!-- 伺服器啟動時載入此 Servlet -->
         <load-on-startup>1</load-on-startup>
         <!-- 啟用 Servlet 3.0+ 的檔案上傳支援 -->
         <multipart-config>
-            <max-file-size>5242880</max-file-size> <!-- 單一檔案最大 5MB -->
-            <max-request-size>10485760</max-request-size> <!-- 整個請求最大 10MB -->
-            <file-size-threshold>0</file-size-threshold>
+            <max-file-size>5242880</max-file-size> <!-- 單一檔案最大 5MB (位元組) -->
+            <max-request-size>10485760</max-request-size> <!-- 整個請求最大 10MB (位元組) -->
+            <file-size-threshold>0</file-size-threshold> <!-- 檔案大小閾值，超過此值將寫入磁碟 -->
         </multipart-config>
     </servlet>
 
+    <!-- 將 DispatcherServlet 映射到所有請求 (根路徑) -->
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <!-- 定義歡迎檔案列表，當訪問應用程式根目錄時，會自動尋找這些檔案 -->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
