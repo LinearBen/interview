@@ -114,6 +114,8 @@
 
     <!-- 專案的構建配置 -->
     <build>
+        <!-- 直接在這裡設定最終的檔案名稱，這是更通用的做法 -->
+        <finalName>bulletin-board</finalName>
         <plugins>
             <!-- Maven 編譯插件，用於指定 Java 編譯版本 -->
             <plugin>
@@ -130,10 +132,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.4.0</version>
-                <configuration>
-                    <!-- 設定固定的 WAR 檔名，方便部署 -->
-                    <finalName>bulletin-board</finalName>
-                </configuration>
             </plugin>
         </plugins>
     </build>
