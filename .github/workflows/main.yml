@@ -1,0 +1,41 @@
+# GitHub Actions 工作流程名稱
+name: Java CI with Maven
+
+# 此工作流程觸發的時機
+on:
+  # 當有程式碼推送到 main 分支時
+  push:
+    branches: [ "main" ]
+  # 當有針對 main 分支的 Pull Request 時
+  pull_request:
+    branches: [ "main" ]
+
+# 定義工作流程中的任務
+jobs:
+  build:
+    # 執行此任務的虛擬機環境
+    runs-on: ubuntu-latest
+
+    steps:
+      # 步驟 1: 拉取您的專案程式碼
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 步驟 2: 設定 Java 環境 (JDK 17)
+      # 使用 Temurin 發行版，並快取 Maven 依賴項以加速後續建置
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      # 步驟 3: 使用 Maven 進行建置
+      # -B 參數表示以批次模式運行，避免互動式提示
+      - name: Build with Maven
+        run: mvn -B clean package --file pom.xml
+        env:
+          # 將 GitHub Secret 注入為環境變數
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+
