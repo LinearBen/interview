@@ -62,7 +62,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.19</version>
+            <version>8.0.33</version>
         </dependency>
         <!-- Jakarta Servlet API，Web 應用程式的標準 API，編譯時需要，部署時由伺服器提供 -->
         <dependency>

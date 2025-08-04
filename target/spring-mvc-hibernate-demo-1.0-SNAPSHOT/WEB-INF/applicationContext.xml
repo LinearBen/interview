@@ -32,7 +32,7 @@
             <!-- 配置 Hibernate 作為 JPA 的實現 -->
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="showSql" value="true" /> <!-- 顯示 SQL 語句 -->
-                <property name="databasePlatform" value="org.hibernate.dialect.MySQL8Dialect" /> <!-- 指定數據庫方言 -->
+                <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" /> <!-- 指定數據庫方言 -->
             </bean>
         </property>
         <property name="jpaProperties">
