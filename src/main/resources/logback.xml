@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 定義控制台輸出器 (Appender) -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--
+                日誌輸出格式：
+                %d{HH:mm:ss.SSS} - 時間
+                [%thread] - 線程名稱
+                %-5level - 日誌級別 (左對齊，5個字符寬)
+                %logger{36} - Logger 名稱 (最多36個字符)
+                %msg%n - 日誌訊息和換行符
+            -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 根 Logger 配置，設定日誌級別為 INFO，並將日誌輸出到 STDOUT -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>

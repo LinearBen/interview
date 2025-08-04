@@ -17,6 +17,7 @@
     <properties>
         <java.version>17</java.version>
         <spring.version>6.0.13</spring.version>
+        <!-- 建議將 Hibernate 版本升級到最新的 6.x 系列穩定版 -->
         <hibernate.version>6.2.6.Final</hibernate.version>
     </properties>
 
@@ -59,10 +60,11 @@
             <version>5.0.1</version>
         </dependency>
         <!-- MySQL JDBC 驅動，用於連接 MySQL 數據庫 -->
+        <!-- 建議使用新的 Maven 座標 (GAV) -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.4.0</version>
         </dependency>
         <!-- Jakarta Servlet API，Web 應用程式的標準 API，編譯時需要，部署時由伺服器提供 -->
         <dependency>
@@ -96,6 +98,18 @@
             <artifactId>jakarta.annotation-api</artifactId>
             <version>2.1.1</version>
         </dependency>
+        <!-- SLF4J API - Logging Facade -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.13</version> <!-- 確保使用 SLF4J 2.x 版本 -->
+        </dependency>
+        <!-- Logging with SLF4J and Logback -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.14</version>
+        </dependency>
     </dependencies>
 
     <!-- 專案的構建配置 -->
@@ -105,7 +119,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.13.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -115,7 +129,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>3.4.0</version>
+                <configuration>
+                    <!-- 設定固定的 WAR 檔名，方便部署 -->
+                    <finalName>bulletin-board</finalName>
+                </configuration>
             </plugin>
         </plugins>
     </build>

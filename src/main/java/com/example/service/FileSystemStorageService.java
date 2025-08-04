@@ -1,6 +1,8 @@
 package com.example.service;
 
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -23,6 +25,8 @@ import java.util.UUID;
 @Service
 public class FileSystemStorageService implements StorageService {
 
+    private static final Logger logger = LoggerFactory.getLogger(FileSystemStorageService.class);
+
     // 從 application.properties 中讀取文件上傳目錄
     @Value("${file.upload-dir}")
     private String uploadDir;
@@ -40,7 +44,7 @@ public class FileSystemStorageService implements StorageService {
         try {
             Files.createDirectories(rootLocation);
         } catch (IOException e) {
-            throw new RuntimeException("Could not initialize storage location", e);
+            throw new StorageException("無法初始化儲存位置", e);
         }
     }
 
@@ -58,11 +62,11 @@ public class FileSystemStorageService implements StorageService {
         try {
             // 如果檔案為空，則拋出異常
             if (file.isEmpty()) {
-                throw new RuntimeException("Failed to store empty file " + originalFilename);
+                throw new StorageException("無法儲存空檔案 " + originalFilename);
             }
             // 安全性檢查，防止檔名中包含 ".."
             if (originalFilename.contains("..")) {
-                throw new RuntimeException("Cannot store file with relative path outside current directory " + originalFilename);
+                throw new StorageException("無法儲存包含相對路徑的檔案 " + originalFilename);
             }
             // 將檔案複製到目標位置
             try (InputStream inputStream = file.getInputStream()) {
@@ -70,7 +74,7 @@ public class FileSystemStorageService implements StorageService {
                 return uniqueFilename;
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to store file " + originalFilename, e);
+            throw new StorageException("儲存檔案失敗 " + originalFilename, e);
         }
     }
 
@@ -98,10 +102,10 @@ public class FileSystemStorageService implements StorageService {
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                throw new RuntimeException("Could not read file: " + filename);
+                throw new StorageFileNotFoundException("讀取檔案失敗: " + filename);
             }
         } catch (MalformedURLException e) {
-            throw new RuntimeException("Could not read file: " + filename, e);
+            throw new StorageFileNotFoundException("讀取檔案失敗: " + filename, e);
         }
     }
 
@@ -116,8 +120,34 @@ public class FileSystemStorageService implements StorageService {
             Path file = load(filename);
             Files.deleteIfExists(file);
         } catch (IOException e) {
-            // 記錄錯誤，但不拋出異常，避免事務回滾
-            System.err.println("Failed to delete file: " + filename);
+            // 使用日誌記錄錯誤，而不是拋出異常，以避免在某些情況下（例如，公告刪除成功但附件刪除失敗）導致整個事務回滾。
+            logger.warn("刪除檔案失敗: {}", filename, e);
         }
+    }
+}
+
+/**
+ * 自定義儲存異常基類
+ */
+class StorageException extends RuntimeException {
+    public StorageException(String message) {
+        super(message);
+    }
+
+    public StorageException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
+
+/**
+ * 自定義檔案未找到異常
+ */
+class StorageFileNotFoundException extends StorageException {
+    public StorageFileNotFoundException(String message) {
+        super(message);
+    }
+
+    public StorageFileNotFoundException(String message, Throwable cause) {
+        super(message, cause);
     }
 }
