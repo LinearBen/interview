@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
+    <!-- 定義一個屬性，指向 Tomcat 的日誌目錄 -->
+    <!-- 如果 TOMCAT_LOGS 環境變數不存在，則預設使用 /opt/tomcat/logs -->
+    <property name="LOGS_HOME" value="${TOMCAT_LOGS:-/opt/tomcat/logs}" />
+
+
     <!-- 定義控制台輸出器 (Appender) -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -16,9 +21,28 @@
         </encoder>
     </appender>
 
-    <!-- 根 Logger 配置，設定日誌級別為 INFO，並將日誌輸出到 STDOUT -->
+    <!-- 定義滾動檔案輸出器 (Appender) -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 指定日誌檔案的路徑和名稱 -->
+        <file>${LOGS_HOME}/bulletin-board.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+
+        <!-- 設定滾動策略，這裡使用基於時間的滾動 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 歸檔檔案的命名模式，每天一個檔案，並以 .gz 格式壓縮 -->
+            <fileNamePattern>${LOGS_HOME}/archived/bulletin-board.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!-- 最多保留 30 天的日誌檔案 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 根 Logger 配置，設定日誌級別為 INFO -->
+    <!-- 將日誌同時輸出到控制台 (STDOUT) 和獨立檔案 (FILE) -->
     <root level="INFO">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
     </root>
 
 </configuration>
